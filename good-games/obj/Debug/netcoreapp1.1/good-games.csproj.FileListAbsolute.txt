@@ -1,0 +1,8 @@
+/Users/Guest/Desktop/good-games.solution/good-games/bin/Debug/netcoreapp1.1/good-games.deps.json
+/Users/Guest/Desktop/good-games.solution/good-games/bin/Debug/netcoreapp1.1/good-games.runtimeconfig.json
+/Users/Guest/Desktop/good-games.solution/good-games/bin/Debug/netcoreapp1.1/good-games.runtimeconfig.dev.json
+/Users/Guest/Desktop/good-games.solution/good-games/obj/Debug/netcoreapp1.1/good-games.AssemblyInfo.cs
+/Users/Guest/Desktop/good-games.solution/good-games/bin/Debug/netcoreapp1.1/good-games.dll
+/Users/Guest/Desktop/good-games.solution/good-games/bin/Debug/netcoreapp1.1/good-games.pdb
+/Users/Guest/Desktop/good-games.solution/good-games/obj/Debug/netcoreapp1.1/good-games.dll
+/Users/Guest/Desktop/good-games.solution/good-games/obj/Debug/netcoreapp1.1/good-games.pdb
