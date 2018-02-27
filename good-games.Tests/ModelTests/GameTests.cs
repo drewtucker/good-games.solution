@@ -74,5 +74,19 @@ namespace GoodGamesApp.Tests
 
       Assert.AreEqual(testGame, foundGame);
     }
+
+    [TestMethod]
+    public void AddRetailer_AddsRetailerToGame_RetailerList()
+    {
+      Game testGame = new Game("Super Mario 64", "Platformer", "Nintendo 64", 1996, 98);
+      testGame.Save();
+
+      Retailer testRetailer = new Retailer("GameStop", "www.GameStop.com");
+      testRetailer.Save();
+
+      testGame.AddRetailer(testRetailer);
+
+      List<Retailer> result = testGame.GetRetailers();
+    }
   }
 }

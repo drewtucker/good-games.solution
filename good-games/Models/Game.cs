@@ -15,7 +15,7 @@ namespace GoodGamesApp.Models
     private int _rating;
     private int _id;
 
-    public Game (string name, string genre, string system, int releaseYear, int rating, int Id = 0)
+    public Game (string name, string genre, string system, int releaseYear, int rating, int Id = 0,)
     {
       _name = name;
       _genre = genre;
@@ -193,6 +193,60 @@ namespace GoodGamesApp.Models
         conn.Dispose();
       }
       return newGame;
+    }
+
+
+    public void AddRetailer(Retailer newRetailer)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO retailers_games (retailer_id, game_id) VALUES (@retailer_id, @game_id);";
+
+      MySqlParameter retailer_id = new MySqlParameter(@retailer_id, newRetailer.GetId());
+      cmd.Parameters.Add(retailer_id);
+
+      MySqlParameter game_id = new MySqlParameter(@game_id, _id);
+      cmd.Parameters.Add(game_id);
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
+    public void Delete()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM games WHERE id = @searchId;";
+
+      MySqlParameter searchId = new MySqlParameter();
+      searchId.ParameterName = "@searchId";
+      searchId.Value = _id;
+      cmd.Parameters.Add(searchId);
+
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
+    public List<Retailer> GetRetailers()
+    {
+      MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT retailer_id FROM retailers_games WHERE game_id = @gameId;";
+
+            MySqlParameter gameIdParameter = new MySqlParameter();
+            gameIdParameter.ParameterName = "@gameId";
+            gameIdParameter.Value = _id;
+            cmd.Parameters.Add(gameIdParameter);
     }
 
     public static void DeleteAll()
