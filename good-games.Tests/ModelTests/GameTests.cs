@@ -12,6 +12,7 @@ namespace GoodGamesApp.Tests
     public void Dispose()
     {
       Game.DeleteAll();
+      Retailer.DeleteAll();
     }
 
     public GameTests()
@@ -87,6 +88,40 @@ namespace GoodGamesApp.Tests
       testGame.AddRetailer(testRetailer);
 
       List<Retailer> result = testGame.GetRetailers();
+    }
+
+    [TestMethod]
+    public void GetRetailers_ReturnsAllGameRetailers_RetailerList()
+    {
+      Game testGame = new Game("Super Mario 64", "Platformer", "Nintendo 64", 1996, 98);
+      testGame.Save();
+
+      Retailer testRetailer1 = new Retailer("GameStop", "www.GameStop.com");
+      testRetailer1.Save();
+
+      testGame.AddRetailer(testRetailer1);
+      List<Retailer> result = testGame.GetRetailers();
+      List<Retailer> testList = new List<Retailer> {testRetailer1};
+
+      CollectionAssert.AreEqual(testList, result);
+    }
+
+    [TestMethod]
+    public void Delete_DeletesGameAssociationsFromDatabase_GameList()
+    {
+      Retailer testRetailer = new Retailer("GameStop", "www.GameStop.com");
+      testRetailer.Save();
+
+      Game testGame = new Game("Super Mario 64", "Platformer", "Nintendo 64", 1996, 98);
+      testGame.Save();
+
+      testGame.AddRetailer(testRetailer);
+      testGame.Delete();
+
+      List<Game> resultRetailerGames = testRetailer.GetGames();
+      List<Game> testRetailerGames = new List<Game>{};
+
+      CollectionAssert.AreEqual(testRetailerGames, resultRetailerGames);
     }
   }
 }

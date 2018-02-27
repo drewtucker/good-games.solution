@@ -15,7 +15,7 @@ namespace GoodGamesApp.Models
     private int _rating;
     private int _id;
 
-    public Game (string name, string genre, string system, int releaseYear, int rating, int Id = 0,)
+    public Game (string name, string genre, string system, int releaseYear, int rating, int Id = 0)
     {
       _name = name;
       _genre = genre;
@@ -114,12 +114,12 @@ namespace GoodGamesApp.Models
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while(rdr.Read())
       {
-        string gameName = rdr.GetString(0);
-        string gameGenre = rdr.GetString(1);
-        string gameSystem = rdr.GetString(2);
-        int gameReleaseYear = rdr.GetInt32(3);
-        int gameRating = rdr.GetInt32(4);
-        int gameId = rdr.GetInt32(5);
+        string gameName = rdr.GetString(1);
+        string gameGenre = rdr.GetString(2);
+        string gameSystem = rdr.GetString(3);
+        int gameReleaseYear = rdr.GetInt32(4);
+        int gameRating = rdr.GetInt32(5);
+        int gameId = rdr.GetInt32(0);
         Game newGame = new Game(gameName, gameGenre, gameSystem, gameReleaseYear, gameRating, gameId);
         allGames.Add(newGame);
       }
@@ -179,12 +179,12 @@ namespace GoodGamesApp.Models
 
       while(rdr.Read())
       {
-        gameId = rdr.GetInt32(5);
-        gameName = rdr.GetString(0);
-        gameGenre = rdr.GetString(1);
-        gameSystem = rdr.GetString(2);
-        gameReleaseYear = rdr.GetInt32(3);
-        gameRating = rdr.GetInt32(4);
+        gameId = rdr.GetInt32(0);
+        gameName = rdr.GetString(1);
+        gameGenre = rdr.GetString(2);
+        gameSystem = rdr.GetString(3);
+        gameReleaseYear = rdr.GetInt32(4);
+        gameRating = rdr.GetInt32(5);
       }
       Game newGame = new Game(gameName, gameGenre, gameSystem, gameReleaseYear, gameRating, gameId);
       conn.Close();
@@ -201,33 +201,13 @@ namespace GoodGamesApp.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"INSERT INTO retailers_games (retailer_id, game_id) VALUES (@retailer_id, @game_id);";
+      cmd.CommandText = @"INSERT INTO retailers_games (retailer_id, game_id) VALUES (@RetailerId, @GameId);";
 
-      MySqlParameter retailer_id = new MySqlParameter(@retailer_id, newRetailer.GetId());
+      MySqlParameter retailer_id = new MySqlParameter("@RetailerId", newRetailer.GetId());
       cmd.Parameters.Add(retailer_id);
 
-      MySqlParameter game_id = new MySqlParameter(@game_id, _id);
+      MySqlParameter game_id = new MySqlParameter("@GameId", _id);
       cmd.Parameters.Add(game_id);
-      cmd.ExecuteNonQuery();
-      conn.Close();
-      if (conn != null)
-      {
-        conn.Dispose();
-      }
-    }
-
-    public void Delete()
-    {
-      MySqlConnection conn = DB.Connection();
-      conn.Open();
-      var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"DELETE FROM games WHERE id = @searchId;";
-
-      MySqlParameter searchId = new MySqlParameter();
-      searchId.ParameterName = "@searchId";
-      searchId.Value = _id;
-      cmd.Parameters.Add(searchId);
-
       cmd.ExecuteNonQuery();
       conn.Close();
       if (conn != null)
@@ -239,14 +219,67 @@ namespace GoodGamesApp.Models
     public List<Retailer> GetRetailers()
     {
       MySqlConnection conn = DB.Connection();
-            conn.Open();
-            var cmd = conn.CreateCommand() as MySqlCommand;
-            cmd.CommandText = @"SELECT retailer_id FROM retailers_games WHERE game_id = @gameId;";
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"SELECT retailer_id FROM retailers_games WHERE game_id = @gameId;";
 
-            MySqlParameter gameIdParameter = new MySqlParameter();
-            gameIdParameter.ParameterName = "@gameId";
-            gameIdParameter.Value = _id;
-            cmd.Parameters.Add(gameIdParameter);
+      MySqlParameter gameIdParameter = new MySqlParameter("@gameId", _id);
+      cmd.Parameters.Add(gameIdParameter);
+
+      var rdr = cmd.ExecuteReader() as MySqlDataReader;
+
+      List<int> retailerIds = new List<int>{};
+      while (rdr.Read())
+      {
+        int retailerId = rdr.GetInt32(0);
+        retailerIds.Add(retailerId);
+      }
+      rdr.Dispose();
+
+      List<Retailer> retailers = new List<Retailer>{};
+      foreach (int retailerId in retailerIds)
+      {
+        var retailerQuery = conn.CreateCommand() as MySqlCommand;
+        retailerQuery.CommandText = @"SELECT * FROM retailers WHERE id = @RetailerId;";
+
+        MySqlParameter retailerIdParameter = new MySqlParameter("@RetailerId", retailerId);
+        retailerQuery.Parameters.Add(retailerIdParameter);
+
+        var retailerQueryRdr = retailerQuery.ExecuteReader() as MySqlDataReader;
+        while(retailerQueryRdr.Read())
+        {
+          int thisRetailerId = retailerQueryRdr.GetInt32(0);
+          string retailerName = retailerQueryRdr.GetString(1);
+          string retailerWebsite = retailerQueryRdr.GetString(2);
+          Retailer foundRetailer = new Retailer(retailerName, retailerWebsite, thisRetailerId);
+          retailers.Add(foundRetailer);
+        }
+        retailerQueryRdr.Dispose();
+      }
+      conn.Close();
+      if(conn != null)
+      {
+        conn.Dispose();
+      }
+      return retailers;
+    }
+
+    public void Delete()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"DELETE FROM games WHERE id = @GameId; DELETE FROM retailers_games WHERE game_id = @GameId;";
+
+      MySqlParameter gameIdParameter = new MySqlParameter("@GameId", this.GetId());
+      cmd.Parameters.Add(gameIdParameter);
+
+      cmd.ExecuteNonQuery();
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
     }
 
     public static void DeleteAll()
