@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:8889
--- Generation Time: Feb 27, 2018 at 01:45 AM
+-- Generation Time: Feb 28, 2018 at 01:44 AM
 -- Server version: 5.6.35
 -- PHP Version: 7.0.15
 
@@ -29,12 +29,12 @@ USE `good_games`;
 --
 
 CREATE TABLE `games` (
+  `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   `genre` varchar(255) NOT NULL,
   `system` varchar(255) NOT NULL,
   `release_year` int(4) NOT NULL,
-  `rating` int(3) NOT NULL,
-  `id` int(11) NOT NULL
+  `rating` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- --------------------------------------------------------
@@ -45,8 +45,8 @@ CREATE TABLE `games` (
 
 CREATE TABLE `retailers` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `website` varchar(255) DEFAULT NULL
+  `name` varchar(255) NOT NULL,
+  `website` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -57,13 +57,19 @@ CREATE TABLE `retailers` (
 
 CREATE TABLE `retailers_games` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `retailer_id` int(11) DEFAULT NULL,
-  `game_id` int(11) DEFAULT NULL
+  `retailer_id` int(11) NOT NULL,
+  `game_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `games`
+--
+ALTER TABLE `games`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `retailers`
