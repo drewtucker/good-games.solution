@@ -221,40 +221,24 @@ namespace GoodGamesApp.Models
       MySqlConnection conn = DB.Connection();
       conn.Open();
       var cmd = conn.CreateCommand() as MySqlCommand;
-      cmd.CommandText = @"SELECT retailer_id FROM retailers_games WHERE game_id = @gameId;";
+      cmd.CommandText = @"SELECT retailers.* FROM games
+          JOIN retailers_games ON (games.id = retailers_games.game_id)
+          JOIN retailers ON (retailers_games.retailer_id = retailers.id)
+          WHERE games.id = @GameId;";
 
-      MySqlParameter gameIdParameter = new MySqlParameter("@gameId", _id);
+      MySqlParameter gameIdParameter = new MySqlParameter("@GameId", _id);
       cmd.Parameters.Add(gameIdParameter);
 
       var rdr = cmd.ExecuteReader() as MySqlDataReader;
+      List<Retailer> retailers = new List<Retailer>{};
 
-      List<int> retailerIds = new List<int>{};
-      while (rdr.Read())
+      while(rdr.Read())
       {
         int retailerId = rdr.GetInt32(0);
-        retailerIds.Add(retailerId);
-      }
-      rdr.Dispose();
-
-      List<Retailer> retailers = new List<Retailer>{};
-      foreach (int retailerId in retailerIds)
-      {
-        var retailerQuery = conn.CreateCommand() as MySqlCommand;
-        retailerQuery.CommandText = @"SELECT * FROM retailers WHERE id = @RetailerId;";
-
-        MySqlParameter retailerIdParameter = new MySqlParameter("@RetailerId", retailerId);
-        retailerQuery.Parameters.Add(retailerIdParameter);
-
-        var retailerQueryRdr = retailerQuery.ExecuteReader() as MySqlDataReader;
-        while(retailerQueryRdr.Read())
-        {
-          int thisRetailerId = retailerQueryRdr.GetInt32(0);
-          string retailerName = retailerQueryRdr.GetString(1);
-          string retailerWebsite = retailerQueryRdr.GetString(2);
-          Retailer foundRetailer = new Retailer(retailerName, retailerWebsite, thisRetailerId);
-          retailers.Add(foundRetailer);
-        }
-        retailerQueryRdr.Dispose();
+        string retailerName = rdr.GetString(1);
+        string retailerWebsite = rdr.GetString(2);
+        Retailer newRetailer = new Retailer(retailerName, retailerWebsite, retailerId);
+        retailers.Add(newRetailer);
       }
       conn.Close();
       if(conn != null)
