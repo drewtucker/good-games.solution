@@ -1,7 +1,18 @@
 body {
-  background-color: #EAEDED
+  background-color: #93ACD4;
 }
 
+form {
+  padding-bottom: 20px;
+}
+
+a {
+  color: yellowgreen;
+}
+
+a:hover {
+  color: white;
+}
 .jumbotron {
   color: yellowgreen;
   background-color: slategray;
@@ -19,6 +30,11 @@ body {
 
 #retailerForm {
   float: left;
+  padding: 10px 10px 10px 10px;
+}
+
+.customHeader {
+  color: white;
 }
 
 .col-md-5 {
@@ -37,7 +53,7 @@ body {
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 1.5vw;
 }
 
 .topnav a:hover {

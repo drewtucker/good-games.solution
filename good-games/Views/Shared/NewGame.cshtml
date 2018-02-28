@@ -1,3 +1,40 @@
 @{
   Layout = "_Layout";
 }
+@using GoodGamesApp.Models;
+<h2 class="customHeader">Enter a New Game:</h2>
+
+  <div class="col-md-5">
+    <form action="/games" method="post">
+      <label for="game-name">Game Name:</label>
+      <input id="game-name" type="text" name="game-name" placeholder="Ex: Super Mario 64">
+      <br>
+      <label for="genre">Genre:</label>
+      <select name="genre">
+        <option value="First Person Shooter">First Person Shooter</option>
+        <option value="Role-Playing Game">Role-Playing Game</option>
+        <option value="Platformer">Platformer</option>
+        <option value="Racing">Racing</option>
+        <option value="Massively Multiplayer Online">MMO</option>
+        <option value="Multiplayer Online Battle Arena">MOBA</option>
+        <option value="Survival">Survival</option>
+        <option value="Family">Family</option>
+        <option value="Puzzle">Puzzle</option>
+        <option value="Sports">Sports</option>
+      </select>
+      <br>
+      <label for="game-system">System:</label>
+      <input type="text" name="game-system" placeholder="Ex: Nintendo 64">
+      <br>
+      <label for="game-release-year">Release Year:</label>
+      <input type="text" name="game-release-year">
+      <br>
+      <label for="game-rating">Metacritic Rating:</label>
+      <input type="text" name="game-rating" placeholder="1-100">
+      <hr>
+
+
+
+      <button class="btn-warning" type="submit">Submit!</button>
+    </form>
+  </div>

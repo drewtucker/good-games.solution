@@ -1,3 +1,35 @@
 @{
   Layout = "_Layout";
 }
+@using GoodGamesApp.Models;
+
+  <h3>@Model["selectedRetailer"].GetName()</h3>
+  <hr>
+  <h4><a href="http://@Model["selectedRetailer"].GetWebsite()">@Model["selectedRetailer"].GetWebsite()</a></h4>
+  @if(@Model["retailerGames"].Count != 0)
+  {
+    <h5>Here are the Games this retailer sells:</h5>
+    <ul>
+    @foreach(var game in @Model["retailerGames"])
+    {
+      <li><a href="/games/details/@game.GetId()">@game.GetName()</a></li>
+    }
+    </ul>
+  }
+
+  <h4>Add a Game to this Retailer:</h4>
+  <form action="/retailers/@Model["selectedRetailer"].GetId()/games/new" method="post">
+    <label for="game-id">Select a Game</label>
+    <select id="game-id" name="game-id">
+      @foreach(var game in @Model["allGames"])
+      {
+        <option value="@game.GetId()">@game.GetName()</option>
+      }
+    </select>
+    <button type="submit"class="btn btn-info">Add</button>
+
+  </form>
+  <hr>
+  <form action="/retailers/delete/@Model["selectedRetailer"].GetId()" method="post">
+    <button type="submit" class="btn btn-danger" name="deleteRetailer">Delete this Retailer</button>
+  </form>

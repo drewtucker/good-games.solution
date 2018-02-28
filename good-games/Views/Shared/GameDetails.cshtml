@@ -1,3 +1,37 @@
 @{
   Layout = "_Layout";
 }
+@using GoodGamesApp.Models;
+<h3>@Model["selectedGame"].GetName()</h3>
+<h4>Genre: @Model["selectedGame"].GetGenre()</h4>
+<h4>System: @Model["selectedGame"].GetSystem()</h4>
+<h4>Release Year: @Model["selectedGame"].GetReleaseYear()</h4>
+<h4>Metacritic Rating: @Model["selectedGame"].GetRating()</h4>
+
+@if (@Model["gameRetailers"].Count != 0)
+{
+  <h4>This game is being sold at these stores:</h4>
+  <ul>
+    @foreach(Retailer retailer in @Model["gameRetailers"])
+    {
+      <a href="/retailers/details/@retailer.GetId()"><li>@retailer.GetName()</li></a>
+    }
+  </ul>
+}
+<hr>
+<h4>Add a retailer who sells this game:</h4>
+<form action="/games/@Model["selectedGame"].GetId()/retailers/new" method="post">
+  <label for="retailer-id">Select a Retailer</label>
+  <select id="retailer-id" name="retailer-id">
+    @foreach(var retailer in @Model["allRetailers"])
+    {
+      <option value="@retailer.GetId()">@retailer.GetName()</option>
+    }
+  </select>
+  <button type="submit" class="btn btn-info">Add</button>
+
+</form>
+
+<form action="/games/delete/@Model["selectedGame"].GetId()" method="post">
+  <button type="submit" class="btn btn-danger" name="deleteGame">Delete this Game</button>
+</form>

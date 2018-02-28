@@ -1,3 +1,10 @@
 @{
   Layout = "_Layout";
 }
+@using GoodGamesApp.Models;
+<h2 class="customHeader">All Games:</h2>
+
+@foreach(var game in Model)
+{
+  <h3><a href="/games/details/@game.GetId()">@game.GetName()</a></h3>
+}

@@ -12,7 +12,7 @@
         <h1 id="jumbotronHeader"><strong><em>GOOD</em></strong> GAMES</h1>
         <h4 id="jumbotronSubHeader"><em>It's time to Git Gud.</em></h4>
       </div>
-      <div id="TopNav" class="topnav">
+      <div id="TopNav" align="center" class="topnav">
         <a href="/">Home</a>
         <a href="/games">All Games</a>
         <a href="/games/new">Add A Game</a>
@@ -22,16 +22,6 @@
       @RenderBody()
 
     </div>
-    <script type="text/javascript">
-      var anchorContainer = document.getElementById("TopNav");
-      var anchors = anchorContainer.getElementsByClassName("a");
-      for (var i = 0; i < anchors.length; i++) {
-        anchors[i].addEventListener("click", function() {
-          var current = document.getElementsByClassName("active");
-          current[0].className = current[0].className.replace(" active", "");
-          this.className += " active";
-        });
-      }
-    </script>
+
   </body>
 </html>
