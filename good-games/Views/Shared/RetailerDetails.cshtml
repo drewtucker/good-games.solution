@@ -17,7 +17,7 @@
     </ul>
   }
 
-  <a href="/retailers/edit/@Model["selectedRetailer"].GetId()">Edit this Retailer</a>
+  <a class="editLink" href="/retailers/edit/@Model["selectedRetailer"].GetId()">Edit this Retailer</a>
 
   <h4>Add a Game to this Retailer:</h4>
   <form action="/retailers/@Model["selectedRetailer"].GetId()/games/new" method="post">

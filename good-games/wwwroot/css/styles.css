@@ -3,7 +3,19 @@ body {
 }
 
 form {
-  padding-bottom: 20px;
+  display: table;
+}
+label {
+  display: table-cell;
+}
+
+input {
+  display: table-cell;
+  margin-left: 5px;
+  margin-right: 20px;
+}
+select {
+  margin-right: 5px;
 }
 
 a {
@@ -33,18 +45,25 @@ a:hover {
   padding: 10px 10px 10px 10px;
 }
 
-.customHeader {
+.editLink {
   color: white;
+  font-size: 1.5vw;
 }
 
-.col-md-5 {
+.formStyle {
   background-color: slategray;
-  border-radius: 10px;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.customHeader {
+  color: white;
 }
 
 .topnav {
   background-color: slategray;
   overflow: hidden;
+  border-radius: 8px;
 }
 
 .topnav a {

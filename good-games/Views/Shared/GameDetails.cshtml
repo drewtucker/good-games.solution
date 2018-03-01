@@ -19,7 +19,7 @@
   </ul>
 }
 
-<a href="/games/edit/@Model["selectedGame"].GetId()">Edit this Game</a>
+<a class="editLink" href="/games/edit/@Model["selectedGame"].GetId()">Edit this Game</a>
 <hr>
 <h4>Add a retailer who sells this game:</h4>
 <form action="/games/@Model["selectedGame"].GetId()/retailers/new" method="post">
