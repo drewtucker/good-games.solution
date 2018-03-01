@@ -60,6 +60,19 @@ namespace GoodGamesApp.Tests
     }
 
     [TestMethod]
+    public void Edit_UpdatesRetailerInDatabase_String()
+    {
+      Retailer testRetailer = new Retailer("GameStop", "www.GameStop.com");
+      testRetailer.Save();
+      string testName = "Best Buy";
+      string testWebsite = "www.bestbuy.com";
+      testRetailer.Edit(testName, testWebsite);
+      Retailer testRetailer2 = new Retailer("Best Buy", "www.bestbuy.com");
+      Assert.AreEqual(testRetailer, testRetailer2);
+
+    }
+
+    [TestMethod]
     public void GetGames_ReturnsAllRetailerGames_GameList()
     {
       Retailer testRetailer = new Retailer("GameStop", "www.GameStop.com");

@@ -200,6 +200,30 @@ namespace GoodGamesApp.Models
       return newRetailer;
     }
 
+    public void Edit(string newName, string newWebsite)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE retailers SET name = @newName, website = @newWebsite WHERE id = @searchId;";
+
+      MySqlParameter searchId = new MySqlParameter("@searchId", _id);
+      cmd.Parameters.Add(searchId);
+      MySqlParameter name = new MySqlParameter("@newName", newName);
+      cmd.Parameters.Add(name);
+      MySqlParameter website = new MySqlParameter("@newWebsite", newWebsite);
+      cmd.Parameters.Add(website);
+
+      cmd.ExecuteNonQuery();
+      _name = newName;
+      _website = newWebsite;
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
     public void Delete()
     {
       MySqlConnection conn = DB.Connection();

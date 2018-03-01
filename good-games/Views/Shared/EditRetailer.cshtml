@@ -1,0 +1,20 @@
+@{
+  Layout = "_Layout";
+}
+
+<h2 class="customHeader">Edit @Model.GetName()</h2>
+<div id="editRetailerForm" class="container">
+  <div class="col-md-5">
+    <form action="/retailers/edit/@Model.GetId()" method="post">
+      <label for="edit-retailer-name">New Retailer Name:</label>
+      <input id="edit-retailer-name" align="middle" type="text" name="edit-retailer-name" placeholder="Ex: Gill's Games">
+      <br>
+      <label for="edit-retailer-website">New Retailer Website:</label>
+      <input id="edit-retailer-website" type="text" name="edit-retailer-website" placeholder="Ex: www.gillsgames.com" >
+      <br>
+      <button class="btn-warning" type="submit">Submit!</button>
+    </form>
+  </div>
+
+
+</div>

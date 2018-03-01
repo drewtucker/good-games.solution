@@ -1,0 +1,37 @@
+@{
+  Layout = "_Layout";
+}
+<h2 class="customHeader">Edit @Model.GetName():</h2>
+
+  <div class="col-md-5">
+    <form action="/games/edit/@Model.GetId()" method="post">
+      <label for="edit-game-name">New Game Name:</label>
+      <input id="edit-game-name" type="text" name="edit-game-name" placeholder="Ex: Super Mario 64">
+      <br>
+      <label for="edit-genre">New Genre:</label>
+      <select name="edit-genre">
+        <option value="First Person Shooter">First Person Shooter</option>
+        <option value="Role-Playing Game">Role-Playing Game</option>
+        <option value="Platformer">Platformer</option>
+        <option value="Racing">Racing</option>
+        <option value="Massively Multiplayer Online">MMO</option>
+        <option value="Multiplayer Online Battle Arena">MOBA</option>
+        <option value="Survival">Survival</option>
+        <option value="Family">Family</option>
+        <option value="Puzzle">Puzzle</option>
+        <option value="Sports">Sports</option>
+      </select>
+      <br>
+      <label for="edit-game-system">New System:</label>
+      <input type="text" name="edit-game-system" placeholder="Ex: Nintendo 64">
+      <br>
+      <label for="edit-game-release-year">New Release Year:</label>
+      <input type="text" name="edit-game-release-year">
+      <br>
+      <label for="edit-game-rating">New Metacritic Rating:</label>
+      <input type="text" name="edit-game-rating" placeholder="1-100">
+      <hr>
+
+      <button class="btn-warning" type="submit">Submit!</button>
+    </form>
+  </div>

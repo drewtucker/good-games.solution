@@ -107,6 +107,21 @@ namespace GoodGamesApp.Tests
     }
 
     [TestMethod]
+    public void Edit_UpdatesGameInDatabase_String()
+    {
+      Game testGame = new Game("Super Mario 64", "Platformer", "Nintendo 64", 1996, 98);
+      testGame.Save();
+      string testName = "Kirby's Epic Yarn";
+      string testGenre = "RPG";
+      string testSystem = "Wii";
+      int testReleaseYear = 2006;
+      int testRating = 89;
+      testGame.Edit(testName, testGenre, testSystem, testReleaseYear, testRating);
+      Game testGame2 = new Game("Kirby's Epic Yarn", "RPG", "Wii", 2006, 89);
+      Assert.AreEqual(testGame, testGame2);
+    }
+
+    [TestMethod]
     public void Delete_DeletesGameAssociationsFromDatabase_GameList()
     {
       Retailer testRetailer = new Retailer("GameStop", "www.GameStop.com");

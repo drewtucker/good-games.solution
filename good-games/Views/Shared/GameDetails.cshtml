@@ -18,6 +18,8 @@
     }
   </ul>
 }
+
+<a href="/games/edit/@Model["selectedGame"].GetId()">Edit this Game</a>
 <hr>
 <h4>Add a retailer who sells this game:</h4>
 <form action="/games/@Model["selectedGame"].GetId()/retailers/new" method="post">
@@ -31,6 +33,8 @@
   <button type="submit" class="btn btn-info">Add</button>
 
 </form>
+
+<hr>
 
 <form action="/games/delete/@Model["selectedGame"].GetId()" method="post">
   <button type="submit" class="btn btn-danger" name="deleteGame">Delete this Game</button>

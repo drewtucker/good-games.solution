@@ -195,6 +195,39 @@ namespace GoodGamesApp.Models
       return newGame;
     }
 
+    public void Edit(string newName, string newGenre, string newSystem, int newReleaseYear, int newRating)
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"UPDATE games SET name = @newName, genre = @newGenre, system = @newSystem, release_year = @newReleaseYear, rating = @newRating WHERE id = @searchId;";
+
+      MySqlParameter searchId = new MySqlParameter("@searchId", _id);
+      cmd.Parameters.Add(searchId);
+      MySqlParameter name = new MySqlParameter("@newName", newName);
+      cmd.Parameters.Add(name);
+      MySqlParameter genre = new MySqlParameter("@newGenre", newGenre);
+      cmd.Parameters.Add(genre);
+      MySqlParameter system = new MySqlParameter("@newSystem", newSystem);
+      cmd.Parameters.Add(system);
+      MySqlParameter releaseYear = new MySqlParameter("@newReleaseYear", newReleaseYear);
+      cmd.Parameters.Add(releaseYear);
+      MySqlParameter rating = new MySqlParameter("@newRating", newRating);
+      cmd.Parameters.Add(rating);
+
+      cmd.ExecuteNonQuery();
+      _name = newName;
+      _genre = newGenre;
+      _system = newSystem;
+      _releaseYear = newReleaseYear;
+      _rating = newRating;
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+    }
+
 
     public void AddRetailer(Retailer newRetailer)
     {

@@ -56,6 +56,21 @@ namespace GoodGamesApp.Controllers
       return RedirectToAction("GameDetails", new {id = gameId});
     }
 
+    [HttpGet("/games/edit/{id}")]
+    public ActionResult EditGameForm(int id)
+    {
+      Game thisGame = Game.Find(id);
+      return View("EditGame", thisGame);
+    }
+
+    [HttpPost("/games/edit/{id}")]
+    public ActionResult EditGame(int id)
+    {
+      Game thisGame = Game.Find(id);
+      thisGame.Edit(Request.Form["edit-game-name"], Request.Form["edit-genre"], Request.Form["edit-game-system"], Int32.Parse(Request.Form["edit-game-release-year"]), Int32.Parse(Request.Form["edit-game-rating"]));
+      return RedirectToAction("AllGames");
+    }
+
     [HttpPost("/games/delete/{id}")]
     public ActionResult DeleteGame(int id)
     {

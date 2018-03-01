@@ -44,6 +44,21 @@ namespace GoodGamesApp.Controllers
       return View(model);
     }
 
+    [HttpGet("/retailers/edit/{id}")]
+    public ActionResult EditRetailerForm(int id)
+    {
+      Retailer thisRetailer = Retailer.Find(id);
+      return View("EditRetailer", thisRetailer);
+    }
+
+    [HttpPost("/retailers/edit/{id}")]
+    public ActionResult EditRetailer(int id)
+    {
+      Retailer thisRetailer = Retailer.Find(id);
+      thisRetailer.Edit(Request.Form["edit-retailer-name"], Request.Form["edit-retailer-website"]);
+      return RedirectToAction("AllRetailers");
+    }
+
     [HttpPost("/retailers/{retailerId}/games/new")]
     public ActionResult AddGameToRetailer(int retailerId)
     {
